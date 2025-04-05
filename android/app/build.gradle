@@ -10,7 +10,7 @@ def depsDir = "$baseDir/deps"
 def ndkDir = "$depsDir/ndk/src"
 def ntgcallsIncludeDir = "$baseDir/ntgcalls/include"
 def wrtcIncludeDir = "$baseDir/wrtc/include"
-def androidCmakeDir = "$baseDir/cmake/Android.cmake"
+def platformUtilsCmakeDir = "$baseDir/cmake/PlatformUtils.cmake"
 def cmakeListsContent = file("$rootProject.projectDir/../CMakeLists.txt").text
 def versionName = (cmakeListsContent =~ /project\(ntgcalls.*VERSION ([\d.]+).*\)/)[0][1]
 def versionComponents = versionName.tokenize('.')
@@ -68,7 +68,7 @@ android {
                         "-DDEPS_DIR=$depsDir",
                         "-DNTGCALLS_INCLUDE_DIR=$ntgcallsIncludeDir",
                         "-DWRTC_INCLUDE_DIR=$wrtcIncludeDir",
-                        "-DANDROID_CMAKE_DIR=$androidCmakeDir",
+                        "-DPLATFORM_UTILS_CMAKE_DIR=$platformUtilsCmakeDir",
                         "-DCMAKE_ANDROID_EXCEPTIONS=ON"
             }
         }
