@@ -42,9 +42,40 @@ include(cmake/FindFFmpeg.cmake)
 # pybind11
 add_subdirectory(deps/pybind11)
 
+#php-cpp
+add_subdirectory(deps/PHP-CPP)
+
 # nlohmann/json
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(deps/json EXCLUDE_FROM_ALL)
 
 add_subdirectory(wrtc)
 add_subdirectory(ntgcalls)
+
+# Find php-config to get PHP include paths
+find_program(PHP_CONFIG_EXECUTABLE NAMES php-config)
+if (PHP_CONFIG_EXECUTABLE)
+  message(STATUS "Found php-config: ${PHP_CONFIG_EXECUTABLE}")
+  execute_process(
+    COMMAND ${PHP_CONFIG_EXECUTABLE} --includes
+    OUTPUT_VARIABLE PHP_INCLUDES
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  message(STATUS "php-config includes: ${PHP_INCLUDES}")
+
+  # Remove -I prefixes and split the flags into a list of directories
+  string(REGEX REPLACE "-I" "" PHP_INCLUDES_CLEAN "${PHP_INCLUDES}")
+  string(REPLACE " " ";" PHP_INCLUDE_DIRS ${PHP_INCLUDES_CLEAN})
+
+  # Add PHP include directories globally so that all subdirectories (including PHP-CPP) get them.
+  include_directories(${PHP_INCLUDE_DIRS})
+else()
+  message(WARNING "php-config not found; please set PHP include paths manually")
+endif()
+
+
+install(TARGETS ntgcalls
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
