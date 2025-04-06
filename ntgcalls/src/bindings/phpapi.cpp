@@ -3,9 +3,8 @@
 */
 
 #include <phpcpp.h>
-#include "../ntgcalls.hpp"
-#include "ntgcalls/exceptions.hpp"
-#include "../models/rtc_server.hpp"
+#include <ntgcalls/ntgcalls.hpp>
+#include <ntgcalls/exceptions.hpp>
 #include <stdexcept>
 #include <vector>
 
@@ -281,7 +280,7 @@ public:
 // Module Initialization using PHP-CPP
 extern "C" {
     PHPCPP_EXPORT void *get_module() {
-        static Php::Extension extension("ntgcalls", "1.0");
+        static Php::Extension extension("ntgcalls", "1.3.2");
 
         // Define NTgCalls class and register its methods
         Php::Class<PHPNTgCalls> ntgCallsClass("NTgCalls");
