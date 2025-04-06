@@ -41,7 +41,7 @@ if test "$PHP_NTG_CALLS" != "no"; then
   PHP_ADD_INCLUDE([$PHP_SRC_DIR])
   PHP_ADD_INCLUDE([$PHP_INSTALL/include/php])
   PHP_ADD_INCLUDE([$srcdir])
-  PHP_NEW_EXTENSION(ntgcalls, ntgcalls/bindings/phpapi.cpp, $ext_shared, -lstdc++)
+  PHP_NEW_EXTENSION(ntgcalls, ntgcalls/src/bindings/phpapi.cpp, $ext_shared, -lstdc++)
 
   AC_MSG_NOTICE([PHP Zend support (php.h, zend_API.h, etc.) is enabled])
 fi
